@@ -3,32 +3,39 @@ import Layout from "./komponen/layout";
 import Button from "./komponen/button";
 import "./styles/styles.css"
 
-function App () {
+export default function App(){
+  let[name, setName]= React.useState('');
+  let[email, setEmail]= React.useState('');
+  let[Password, setPassword]= React.useState('');
+  let[confirmPassword, setConfirmPassword]= React.useState('');
+ 
   return(
     <React.Fragment>
-      <h1>Belajar Props2</h1>
-     <Layout title={'Nomor 1'}>
-      <h1>SMK MADINATUL QURAN</h1>
-     </Layout>
-     <Layout title={'Nomor 2'}>
-      <h1>SMK MADINATUL QURAN</h1>
-     </Layout>
-     <Layout title={'Nomor 3'}>
-      <h1>SMK MADINATUL QURAN</h1>
-     </Layout>
-     <Button onClick={()=>{
-      console.log("button ini di klik");
-     }} 
-     color="blue"
-     title={'simpan'} />
-     <Button onClick={()=>{
-      console.log("button ini di batalkan");
-     }} 
-     disable={true}
-     title={'batal'} />
-     <Button color="green" title={"update"} />
+      <form>tes</form>
     </React.Fragment>
-  );
+  )
 }
 
-export default App;
+// function App () {
+
+//   let [count, setCount] = React.useState(0);
+//   const handleTambah = ()=>{
+//     setCount(count + 1);
+//   };
+//   const handleKurang = ()=>{
+//     setCount(count - 1);
+//   };
+//   return(
+//     <React.Fragment>
+//       <h1>count = {count}</h1>
+//       <Button onClick={handleTambah} title='Tambah' color="blue"/>
+//       <Button disabled={count <= 0 ? true : false} onClick={handleKurang} title='Kurang' color="gray"/>
+//       <Button disabled={count === 0 ? true : false} onClick={() => {
+//         setCount(0);
+//       }}
+//       title='Reset'/>
+//     </React.Fragment>
+//   );
+// }
+
+// export default App;
