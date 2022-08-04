@@ -1,19 +1,65 @@
 import React from 'react';
 import Layout from "./komponen/layout";
 import Button from "./komponen/button";
+import Input from "./komponen/input";
 import "./styles/styles.css"
 
 export default function App(){
-  let[name, setName]= React.useState('');
-  let[email, setEmail]= React.useState('');
-  let[Password, setPassword]= React.useState('');
-  let[confirmPassword, setConfirmPassword]= React.useState('');
- 
+  const [values, setValues] = React.useState({
+    username:"",
+    email:"",
+    password:"",
+    confirmPassword:"",
+  })
+  const handleChange = (e) => {
+    e.preventDefault()
+    console.log('ok gass jalan');
+    setValues((values) =>{
+      return{
+        ...values,
+        [e.target.name]: e.target.value
+      } 
+    });
+  };
   return(
     <React.Fragment>
-      <form>tes</form>
+      <div style={{
+        display: "flex"
+       
+      }}>
+      <form>
+       <Input  name="username" value={values.username} label={'Username'} placeHolder="Username" onChange={(event) => {
+        event.preventDefault();
+        console.log('ok jalan')
+        setValues((values)=>{
+          return{
+           ...values,
+           username: event.target.value,
+
+         };
+        });
+       }} />
+       <Input  name="email" value={values.email} label={'Email'} 
+       placeHolder="Email" onChange={handleChange}/>
+       <Input  name="password" value={values.password} label={'Password'} 
+       placeHolder="Password" onChange={handleChange}/>
+       <Input  name="confirmPassword" value={values.confirmPassword} label={'Confirm Password'} placeHolder="Confirm Password" onChange={handleChange}/>
+       <Button title={'Simpan'}/>
+      </form>
+      <div 
+      style={{
+        width: "40%",
+        border: "1px solid black",
+        height: "265px",
+        }}>
+        <p>Username:{values?.username}</p>
+        <p>Email: {values?.email}</p>
+        <p>Password: {values?.password}</p>
+        <p>ConfirmPassword: {values?.confirmPassword}</p>
+      </div>
+      </div>
     </React.Fragment>
-  )
+  );
 }
 
 // function App () {
