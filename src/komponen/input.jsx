@@ -7,8 +7,7 @@ export default function Input({label, isError, textError, ...props}){
             {label}
         </label>
         <input {...props} className='input-text' id={label} />
-       {isError && <p className='error'>
-       {textError}
+       {isError && <p className='error'>{textError}
         </p>}
       </div>
     );

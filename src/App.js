@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from "./komponen/layout";
 import Button from "./komponen/button";
 import Input from "./komponen/input";
+import Card from "./komponen/card";
 import "./styles/styles.css"
 
 export default function App(){
@@ -10,41 +11,87 @@ export default function App(){
     email:"",
     password:"",
     confirmPassword:"",
-  })
+  });
+
+  const [data, setData] = React.useState([
+  ]);
+  const [errors, setError] =React.useState([
+  ]);
+
   const handleChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log('ok gass jalan');
-    setValues((values) =>{
+    setValues((values)=> {
       return{
         ...values,
         [e.target.name]: e.target.value
       } 
     });
+    if(e.target.value !== ""){
+      setError({
+        ...errors,
+        [e.target.name]: true,
+      });
+    }
   };
-  return(
+
+  const handleBlur = (e) => {
+    e.preventDefault();
+    if(e.target.value === ""){
+      setError((errors)=> {
+        return{
+          ...errors,
+          [e.target.name]: true,
+        } 
+      });
+    } 
+  };
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+    console.log('form tersubmit');
+    
+    values.id = new Date().getTime()
+    setData((data)=> {
+      return[...data, values];  
+    });
+
+    setValues((values)=> {
+      return{
+        username:"",
+        email:"",
+        password:"",
+        confirmPassword:"",
+      }
+    });
+  };
+  console.log('errors', errors)
+  return (
     <React.Fragment>
       <div style={{
         display: "flex"
-       
       }}>
-      <form>
-       <Input  name="username" value={values.username} label={'Username'} placeHolder="Username" onChange={(event) => {
+      <form
+      onSubmit={handleSubmit}>
+       <Input isError={errors?.name} textError={"Wajib Diisi"} name="username" value={values.username} label={'Username'} placeHolder="Username" onChange={(event) => {
         event.preventDefault();
         console.log('ok jalan')
         setValues((values)=>{
           return{
            ...values,
            username: event.target.value,
-
          };
         });
        }} />
-       <Input  name="email" value={values.email} label={'Email'} 
-       placeHolder="Email" onChange={handleChange}/>
-       <Input  name="password" value={values.password} label={'Password'} 
-       placeHolder="Password" onChange={handleChange}/>
-       <Input  name="confirmPassword" value={values.confirmPassword} label={'Confirm Password'} placeHolder="Confirm Password" onChange={handleChange}/>
+       <Input isError={errors?.email} textError={"Wajib Diisi"} name="email" value={values.email} label={'Email'} 
+       placeHolder="Email" onBlur={handleBlur} onChange={handleChange}/>
+
+       <Input isError={errors?.password} textError={"Wajib Diisi"} name="password" value={values.password} label={'Password'} 
+       placeHolder="Password" onBlur={handleBlur} onChange={handleChange}/>
+
+       <Input isError={errors?.confirmPassword} textError={"Wajib Diisi"} name="confirmPassword" value={values.confirmPassword} label={'Confirm Password'} placeHolder="Confirm Password" onBlur={handleBlur} onChange={handleChange}/>
        <Button title={'Simpan'}/>
+
       </form>
       <div 
       style={{
@@ -52,10 +99,7 @@ export default function App(){
         border: "1px solid black",
         height: "265px",
         }}>
-        <p>Username:{values?.username}</p>
-        <p>Email: {values?.email}</p>
-        <p>Password: {values?.password}</p>
-        <p>ConfirmPassword: {values?.confirmPassword}</p>
+        <Card data={data} setData={setData}/>
       </div>
       </div>
     </React.Fragment>
