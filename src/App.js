@@ -8,7 +8,7 @@ import "./styles/styles.css"
 
 export default function App(){
   const [values, setValues] = React.useState({
-    username:"",
+    name:"",
     email:"",
     tempatlahir:"",
     tanggallahir: "",
@@ -34,7 +34,7 @@ export default function App(){
     if(e.target.value !== ""){
       setError({
         ...errors,
-        [e.target.name]: true,
+        [e.target.name]: false,
       });
     }
   };
@@ -62,7 +62,7 @@ export default function App(){
 
     setValues((values)=> {
       return{
-        username:"",
+        name:"",
         email:"",
         tempatlahir:"",
         tanggallahir: "",
@@ -79,11 +79,11 @@ export default function App(){
         display: "flex"
       }}>
       <form
-      onSubmit={handleSubmit}>
-       <Input isError={errors?.name} textError={"Wajib Diisi"} name="username" value={values.username} label={'Nama'} placeHolder="Nama" onChange={(event) => {
+        onChange={handleChange} onSubmit={handleSubmit}>
+       <Input isError={errors?.name} textError={"Wajib Diisi"} name="name" value={values.name} label={'Nama'} placeHolder="Nama" onChange={(event) => {
         event.preventDefault();
         console.log('ok jalan')
-        setValues((values)=>{
+        setValues((values)=> {
           return{
            ...values,
            username: event.target.value,
@@ -106,12 +106,14 @@ export default function App(){
        placeHolder="Password" onBlur={handleBlur} onChange={handleChange}/>
 
        <Input isError={errors?.confirmPassword} textError={"Wajib Diisi"} name="confirmPassword" value={values.confirmPassword} label={'Confirm Password'} placeHolder="Confirm Password" onBlur={handleBlur} onChange={handleChange}/>
-       <Button title={'Simpan'}/>
 
-      </form>
+       <Button title={'Simpan'}/>
+       <Button type="reset" title={'Reset'}/>
+
+      </form> 
       <div 
       style={{
-        width: "40%",
+        width: "48%",
         border: "1px solid black",
         height: "572",
         }}>
@@ -136,10 +138,7 @@ export default function App(){
 //       <h1>count = {count}</h1>
 //       <Button onClick={handleTambah} title='Tambah' color="blue"/>
 //       <Button disabled={count <= 0 ? true : false} onClick={handleKurang} title='Kurang' color="gray"/>
-//       <Button disabled={count === 0 ? true : false} onClick={() => {
-//         setCount(0);
-//       }}
-//       title='Reset'/>
+//       <Button disabled={count === 0 ? true : false} onClick={() => {setCount(0);}}title='Reset'/>
 //     </React.Fragment>
 //   );
 // }
