@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import Layout from "./komponen/layout";
 import Button from "./komponen/button";
 import Input from "./komponen/input";
@@ -9,6 +10,9 @@ export default function App(){
   const [values, setValues] = React.useState({
     username:"",
     email:"",
+    tempatlahir:"",
+    tanggallahir: "",
+    jeniskelamin: "",
     password:"",
     confirmPassword:"",
   });
@@ -60,6 +64,9 @@ export default function App(){
       return{
         username:"",
         email:"",
+        tempatlahir:"",
+        tanggallahir: "",
+        jeniskelamin: "",
         password:"",
         confirmPassword:"",
       }
@@ -73,7 +80,7 @@ export default function App(){
       }}>
       <form
       onSubmit={handleSubmit}>
-       <Input isError={errors?.name} textError={"Wajib Diisi"} name="username" value={values.username} label={'Username'} placeHolder="Username" onChange={(event) => {
+       <Input isError={errors?.name} textError={"Wajib Diisi"} name="username" value={values.username} label={'Nama'} placeHolder="Nama" onChange={(event) => {
         event.preventDefault();
         console.log('ok jalan')
         setValues((values)=>{
@@ -86,6 +93,15 @@ export default function App(){
        <Input isError={errors?.email} textError={"Wajib Diisi"} name="email" value={values.email} label={'Email'} 
        placeHolder="Email" onBlur={handleBlur} onChange={handleChange}/>
 
+       <Input isError={errors?.tempatlahir} textError={"Wajib Diisi"} name="tempatlahir" value={values.tempatlahir} label={'Tempat Lahir'} 
+       placeHolder="Tempat Lahir" onBlur={handleBlur} onChange={handleChange}/>
+
+       <Input isError={errors?.tanggallahir} textError={"Wajib Diisi"} type="date" name="tanggallahir" value={values.tanggallahir} label={'Tanggal Lahir'} 
+       placeHolder="Tanggal Lahir" onBlur={handleBlur} onChange={handleChange}/>
+
+       <Input isError={errors?.jeniskelamin} textError={"Wajib Diisi"} name="jeniskelamin" value={values.jeniskelamin} label={'Jenis Kelamin'} 
+       placeHolder="Jenis Kelamin" onBlur={handleBlur} onChange={handleChange}/>
+
        <Input isError={errors?.password} textError={"Wajib Diisi"} name="password" value={values.password} label={'Password'} 
        placeHolder="Password" onBlur={handleBlur} onChange={handleChange}/>
 
@@ -97,7 +113,7 @@ export default function App(){
       style={{
         width: "40%",
         border: "1px solid black",
-        height: "265px",
+        height: "572",
         }}>
         <Card data={data} setData={setData}/>
       </div>
