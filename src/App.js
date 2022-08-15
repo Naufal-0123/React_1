@@ -1,11 +1,14 @@
 import React from 'react';
+import Card from './card';
+
 function App () {
+  let [Count, setCount] = React.useState(0)
+
   return(
-    <React.Fragment>
-      <h1>Latihan Export Import</h1>
-     
-    </React.Fragment>
+    <div>
+      <Card Count={Count} setCount={setCount}/>
+    </div>
   );
 }
 
-export default App
+export default App;
