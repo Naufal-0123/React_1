@@ -1,13 +1,13 @@
 import React from 'react';
 import Card from './card';
+import Warna from './Warna';
 
 function App () {
   let [Count, setCount] = React.useState(0)
-  let [message, setMessage] = React.useState(0);
-
+  let [warna, setWarna] = React.useState("Blue")
   return(
     <div>
-      <h3>{message === 10 ? "ini baru sepuluh" : "ini bukan sepuluh"}</h3>
+      <Warna warna={warna} setWarna={setWarna}/>
       <Card Count={Count} setCount={setCount}/>
     </div>
   );
