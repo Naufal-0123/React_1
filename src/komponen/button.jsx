@@ -28,7 +28,7 @@
 
 import React from 'react';
 
-export default function Button({title, color = "blue, red", disabled, ...props}) {
+export default function Button({title, color = "blue", disabled, ...props}) {
     return (
         <React.Fragment>
             <button
