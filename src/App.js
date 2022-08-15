@@ -7,6 +7,7 @@ function App () {
 
   return(
     <div>
+      <h3>{message === 10 ? "ini baru sepuluh" : "ini bukan sepuluh"}</h3>
       <Card Count={Count} setCount={setCount}/>
     </div>
   );
