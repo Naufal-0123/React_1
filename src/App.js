@@ -3,6 +3,7 @@ import Card from './card';
 
 function App () {
   let [Count, setCount] = React.useState(0)
+  let [message, setMessage] = React.useState(0);
 
   return(
     <div>
