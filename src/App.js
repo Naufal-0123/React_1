@@ -1,128 +1,140 @@
 import React from 'react';
-import Layout from "./komponen/layout";
+// import Layout from "./komponen/layout";
 import Button from "./komponen/button";
-import Input from "./komponen/input";
+import Input from './komponen/input';
 import Card from "./komponen/card";
 import "./styles/styles.css"
 
-export default function App(){
+function App() {
   const [values, setValues] = React.useState({
-    judul:"",
-    catatan:"",
+    judul: "",
+    catatan: "",
   });
+  const [data, setData] = React.useState([]);
+  const [error, setError] = React.useState({});
+  const [form, setForm] = React.useState("")
+  // const handlePassword = (e) => {
+  //   if (values.judul === "") {
+  //     e.preventDefault();
+  //     alert("There's Empty Form");
+  //     setForm("Form is empty")
+  //   }
 
-  const [data, setData] = React.useState([
-  ]);
-  const [errors, setError] =React.useState([
-  ]);
-
-  const handleChange = (e) => {
+  //   else (values.catatan === "") {
+  //     e.preventDefault();
+  //     alert("There's Empty Form");
+  //     setForm("Form is empty")
+  //   }
+  // }
+      
+  function handleSubmit(e) {
     e.preventDefault();
-    console.log('ok gass jalan');
-    setValues((values)=> {
-      return{
-        ...values,
-        [e.target.name]: e.target.value
-      } 
+    console.log("Submit");
+    setValues((values) => {
+      return {
+        judul: "",
+        catatan: "",
+      };
     });
-    if(e.target.value !== ""){
-      setError({
-        ...errors,
-        [e.target.name]: true,
+    setData((data) => {
+      return [...data, values];
+    });
+  }
+
+  // function handleReset(e) {
+  //   e.preventDefault();
+  //   setValues((values) => {
+  //     return {
+  //       judul: "",
+  //       catatan: "",
+  //     };
+  //   });
+  // }
+
+  const handleBlur = (e) => {
+    e.preventDefault();
+    if (e.target.value === "") {
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        };
+      });
+    } else {
+      setError((errors) => {
+        return {
+          ...errors,
+          [e.target.name]: false,
+        };
       });
     }
   };
 
-  const handleBlur = (e) => {
-    e.preventDefault();
-    if(e.target.value === ""){
-      setError((errors)=> {
-        return{
-          ...errors,
-          [e.target.name]: true,
-        } 
-      });
-    } 
-  };
-
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    console.log('form tersubmit');
+  const handleChange = (e) => {
+    setValues((values) => {
+      return {
+        ...values,
+        [e.target.name]: e.target.value,
+      };
+    });
+    if (values.judul === "") {
+      e.preventDefault();
+      setForm("")
+    }
+    else if (values.catatan === "") {
+      e.preventDefault();
+      setForm("")
+    }
+  }
     
-    values.id = new Date().getTime()
-    setData((data)=> {
-      return[...data, values];  
-    });
 
-    setValues((values)=> {
-      return{
-        username:"",
-        email:"",
-      }
-    });
-  };
-  console.log('errors', errors)
-  return (
+  console.log("error", error);
+
+    return (
     <React.Fragment>
-      <div style={{
-        display: "flex"
-      }}>
-      <form
-      onSubmit={handleSubmit}>
-       <Input isError={errors?.name} textError={"Wajib Diisi"} name="judul" value={values.username} label={'Judul'} placeHolder="Judul" onChange={(event) => {
-        event.preventDefault();
-        console.log('ok jalan')
-        setValues((values)=>{
-          return{
-           ...values,
-           username: event.target.value,
-         };
-        });
-       }} />
-       <Input isError={errors?.name} textError={"Wajib Diisi"} type="text" name="catatan" value={values.catatan} label={'Catatan'} placeHolder="Catatan" onChange={(event) => {
-        event.preventDefault();
-        console.log('ok jalan')
-        setValues((values)=>{
-          return{
-           ...values,
-           username: event.target.value,
-         };
-        });
-       }} />
-      </form>
-      <div 
-      style={{
-        width: "40%",
-        border: "1px solid black",
-        height: "265px",
-        }}>
-        <Card data={data} setData={setData}/>
-      </div>
+      <div className="center-flex">
+        <div className="center1">
+          <form onSubmit={handleSubmit} isError={error?.form}>
+            <p className="error">{form}</p>
+            <Input
+              isError={error?.judul}
+              name="judul"
+              label={"Judul"}
+              placeholder={"Judul"}
+              value={values.judul}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              // onPassword={handlePassword}
+            />
+            <Input
+              isError={error?.catatan}
+              name="catatan"
+              label={"Catatan"}
+              placeholder={"Catatan"}
+              value={values.catatan}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              // onPassword={handlePassword}
+            />
+            <Button
+              title={"Submit"}
+              color={"#151515"}
+            />
+            {/* <Button title={"Reset"} color={"#151515"} onClick={handleReset} /> */}
+          </form>
+        </div>
+        <div className="pad scroll view">
+          <Card
+            data={data}
+            setData={setData}
+            values={values}
+            setValues={setValues}
+          />
+        </div>
       </div>
     </React.Fragment>
   );
-}
+    }
 
-// function App () {
 
-//   let [count, setCount] = React.useState(0);
-//   const handleTambah = ()=>{
-//     setCount(count + 1);
-//   };
-//   const handleKurang = ()=>{
-//     setCount(count - 1);
-//   };
-//   return(
-//     <React.Fragment>
-//       <h1>count = {count}</h1>
-//       <Button onClick={handleTambah} title='Tambah' color="blue"/>
-//       <Button disabled={count <= 0 ? true : false} onClick={handleKurang} title='Kurang' color="gray"/>
-//       <Button disabled={count === 0 ? true : false} onClick={() => {
-//         setCount(0);
-//       }}
-//       title='Reset'/>
-//     </React.Fragment>
-//   );
-// }
-
-// export default App;
+export default App;
