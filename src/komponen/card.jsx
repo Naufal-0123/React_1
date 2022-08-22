@@ -21,10 +21,8 @@ export default function Card({ data, setData }) {
                     return (
                         <div>
                             <p>id: {item?.id}</p>
-                            <p>Username: {item.username}</p>
-                            <p>Email: {item.email}</p>
-                            <p>Password: {item.password}</p>
-                            <p>ConfirmPassword: {item.confirmPassword}</p>
+                            <p>Judul: {item.judul}</p>
+                            <p>Catatan: {item.catatan}</p>
                             <button value={item?.id} onClick={handleDelete}>Hapus</button>
                         </div>
                     );

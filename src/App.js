@@ -79,7 +79,7 @@ export default function App(){
          };
         });
        }} />
-       <Input isError={errors?.name} textError={"Wajib Diisi"} name="catatan" value={values.catatan} label={'Catatan'} placeHolder="Catatan" onChange={(event) => {
+       <Input isError={errors?.name} textError={"Wajib Diisi"} type="text" name="catatan" value={values.catatan} label={'Catatan'} placeHolder="Catatan" onChange={(event) => {
         event.preventDefault();
         console.log('ok jalan')
         setValues((values)=>{
@@ -96,7 +96,7 @@ export default function App(){
         border: "1px solid black",
         height: "265px",
         }}>
-        {/* <Card data={data} setData={setData}/> */}
+        <Card data={data} setData={setData}/>
       </div>
       </div>
     </React.Fragment>
