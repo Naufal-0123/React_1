@@ -46,6 +46,19 @@ export default function App() {
     });
   }
 
+  const handleDelete = (e) => {
+    e.preventDefault()
+    const hasilFilter = catatan.filter((item) => {
+      return item.id !== parseInt(e.target.value)
+    })
+
+    setCatatan(()=> {
+      return hasilFilter;
+    })
+
+    console.log('hasilFilter', hasilFilter)
+  }
+
   const handleSubmit = (e) => {
     console.log('Submit')
     e.preventDefault()
@@ -118,6 +131,7 @@ export default function App() {
             catatan.length === 0 ? (<div>Tidak Ada Catatan</div>) : catatan.map((item, index)=> {
               return(<div key={index}>
                 <Card 
+                handleDelete={handleDelete}
                 title={item.title}
                 body={item.body}
                 id={item.id}

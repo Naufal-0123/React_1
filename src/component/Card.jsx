@@ -1,6 +1,6 @@
 import Button from "./Button";
 
-export default function card ({title, body, createdAt, id, }){
+export default function card ({title, body, createdAt, id, handleDelete}) {
     return(
         <div className="border p-5 h-75 w-full shadow-lg rounded-lg space-y-2">
             <div className="h-1/5">
@@ -10,6 +10,7 @@ export default function card ({title, body, createdAt, id, }){
             <div className="text-justify h-3/5">{body}</div>
             <div className="grid grid-cols-2 gap-5">
                 <Button 
+                onClick={handleDelete}
                 value={id}
                 type="button"
                 title={"Delete"}
