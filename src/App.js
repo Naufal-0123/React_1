@@ -1,146 +1,211 @@
-import React from 'react';
-import Button from './component/Button';
-import Input from './component/Input';
-import TextArea from './component/TextArea';
-import Card from './component/Card';
-export default function App() {
+import React from "react";
+import Input from "./component/Input";
+import TextArea from "./component/TextArea";
+import Button from "./component/Button";
+
+import Card from "./component/Card";
+function App() {
   const [values, setValues] = React.useState({
     id: "",
     title: "",
     body: "",
+    year: "",
     archived: false,
     createdAt: "",
   });
   const [catatan, setCatatan] = React.useState([]);
-  const [errors,setErrors] = React.useState([])
-  const [formError, setFormError] = React.useState("")
+  const [errors, setErrors] = React.useState({});
+  const [formError, setFormError] = React.useState("");
+
   const handleChange = (e) => {
-    console.log('Berhasil');
-    setValues(()=> {
+    e.preventDefault();
+    // console.log('ada');
+    setValues((values) => {
       return {
         ...values,
-        [e.target.name] : e.target.value,
-        id : new Date().getTime(),
-        createdAt : new Date()
+        [e.target.name]: e.target.value,
+        id: new Date().getTime(),
+        createdAt: new Date(),
       };
     });
-    setFormError("")
-    handleBlur(e)
+    handleBlur(e);
+    setFormError("");
   };
 
-  const handleBlur = (e) => {
-    console.log('handle blur jalan')
-    if(e.target.value === '')
-    setErrors((errors) => {
-      return{
-        ...errors,
-        [e.target.name]: true
-      };
-    });
-    if(e.target.value !== '')
-    setErrors((errors) => {
-      return{
-        ...errors,
-        [e.target.name]: false
-      };
-    });
-  }
-
-  const handleDelete = (e) => {
-    e.preventDefault()
-    const hasilFilter = catatan.filter((item) => {
-      return item.id !== parseInt(e.target.value)
-    })
-
-    setCatatan(()=> {
-      return hasilFilter;
-    })
-
-    console.log('hasilFilter', hasilFilter)
-  }
-
   const handleSubmit = (e) => {
-    console.log('Submit')
-    e.preventDefault()
+    e.preventDefault();
+    console.log("tersubmit");
 
-    if(values.title === "" || values.body === ""){
-      setFormError('form wajib diisi')
-      if(values.title === ""){
-        setErrors((errors)=> {
-          return{
+    if (
+      values.title === "" ||
+      values.body === "" ||
+      values.year < 2020 ||
+      values.year > 2022
+    ) {
+      if (values.title === "") {
+        setErrors((errors) => {
+          return {
             ...errors,
-            title : true
-          } 
-        })
+            title: true,
+          };
+        });
       }
-      if(values.body === ""){
-        setErrors((errors)=> {
-          return{
+      if (values.body === "") {
+        setErrors((errors) => {
+          return {
             ...errors,
-            body : true
-          } 
-        })
+            body: true,
+          };
+        });
       }
-      return
+      if (values.year < 2020 || values.year > 2022) {
+        setErrors((errors) => {
+          return {
+            ...errors,
+            year: true,
+          };
+        });
+      }
+      setFormError("Form wajid diisi");
+      return;
     }
-    
-    setCatatan((catatan) => {
-      return[
-        ...catatan, values
-      ];
-    });
-    setValues(()=> {
-      return{
+
+    setCatatan((catatan) => [...catatan, values]);
+    setValues(() => {
+      return {
         id: "",
         title: "",
         body: "",
+        year: "",
         archived: false,
         createdAt: "",
-      }
-    })
-    
+      };
+    });
   };
-  
-  console.log('values', values)
-  console.log('catatan', catatan)
-  console.log('error', errors)
-  return(
-    <div className='w-screen min-h-screen text-gray-500 p-5 space-y-5'>
-      <div className='grig grid-cols-5 border-b-2 py-2'>
-        <h1 className='text-2xl flex items-center justify-center'>Notes</h1>
-        <div className='col-start-5'>
-          <Input placeholder="Cari Catatan..."/>
-        </div>
-      </div>
-      <div className='grid grid-cols-1 gap-5'>
-        <div className='flex items-center justify-center'></div>
-        <div className='col-span-1 flex items-center justify-center'>
-          <form onSubmit={handleSubmit} className='space-y-2'>
-            <p className='flex items-center justify-center text-red-500 text-lg'>{formError}</p>
-            <h1 className='text-xl flex items-center justify-center'>Buat Catatan</h1>
-            <Input name={"title"} id='title' value={values.title} title={"Judul"} placeholder={"Judul"} onChange={handleChange} onBlur={handleBlur} error={errors.title}/>
-            <TextArea name={"body"} id='body' value={values.body} title={"Body"} placeholder={"Catatan"} onChange={handleChange} onBlur={handleBlur} error={errors.body}/>
-            <Button title={"Simpan"}/>
-          </form>
+
+  const handleBlur = (e) => {
+    console.log("handleblur");
+
+    if (e.target.value === "") {
+      setErrors(() => {
+        return {
+          ...errors,
+          [e.target.name]: true,
+        };
+      });
+    } else {
+      setErrors(() => {
+        return {
+          ...errors,
+          [e.target.name]: false,
+        };
+      });
+    }
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+
+    const hasilFilter = catatan.filter((item) => {
+      return item.id !== parseInt(e.target.value);
+    });
+    setCatatan(() => {
+      return hasilFilter;
+    });
+    console.log("filter", hasilFilter);
+  };
+
+  // console.log(values);
+  console.log("error: ", errors);
+  console.log("Catatan: ", catatan);
+  return (
+    <React.Fragment>
+      {/* <h1 className="bg-red-500 text-white text-center mb-5">
+        Pembahasan Remedial
+      </h1> */}
+
+      <div className="w-full min-h-screen text-grey-500 p-5 space-y-5">
+        <div className="grid grid-cols-3 lg:grid-cols-5 md:grid-cols-4 border-b-2 py-2 border-green-700">
+          <h1 className="text-2xl ">MyNotes</h1>
+          <div className="col-start-3 lg:col-start-5 md:col-start-4">
+            <Input placeholder="Cari Catatan..." />
+          </div>
         </div>
 
-        <div className='col-span-1 overflow-auto w-full px-5 py-3 border h-96'>
-          <h1 className='flex items-center justify-center text-xl font-bold '>Daftar Catatan</h1>
-         <div className='grid grid-cols-4 gap-5'>
-         {
-            catatan.length === 0 ? (<div>Tidak Ada Catatan</div>) : catatan.map((item, index)=> {
-              return(<div key={index}>
-                <Card 
-                handleDelete={handleDelete}
-                title={item.title}
-                body={item.body}
-                id={item.id}
-                />
-              </div>)
-            }) }
-         </div>
+        <div className="grid grid-cols-1 gap-5">
+          <div className="flex items-center justify-center"></div>
+          <div className="col-span-1 flex items-center justify-center">
+            <form className="space-y-2" onSubmit={handleSubmit}>
+              <p className="text-red-500 text-lg italic font-semibold">
+                {formError}
+              </p>
+              <label htmlFor="Judul">
+                <h1 className="text-xl cursor-pointer ">
+                  Buat Catatan <span className="text-red-600 text-2xl">*</span>
+                </h1>
+              </label>
+              <Input
+                name={"title"}
+                value={values.title}
+                title={"Judul"}
+                placeholder="Judul"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.title}
+              />
+              <TextArea
+                name={"body"}
+                value={values.body}
+                title={"Body"}
+                placeholder="Catatan"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.body}
+              />
+              <Input
+                name={"year"}
+                value={values.year}
+                title={"Tahun Terbit"}
+                placeholder="Tahun Terbit (2020 s/d 2022)"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={errors.year}
+                type="number"
+                maxLength={4}
+              />
+              <Button title="Simpan" />
+            </form>
+          </div>
+
+          <div className="col-span-1 overflow-auto w-full px-5 py-3 border-2 h-96 rounded-md border-green-700 space-y-5">
+            <h1 className="text-2xl border-b border-green-700 py-2 mb-5 ">
+              Daftar Catatan
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {catatan.length === 0 ? (
+                <div className=" ">Tidak ada catatan!</div>
+              ) : (
+                catatan.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <Card
+                        title={item.title}
+                        body={item.body}
+                        year={item.year}
+                        createdAt={item.createdAt}
+                        id={item.id}
+                        handleDelete={handleDelete}
+                      />
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
+
+export default App;
