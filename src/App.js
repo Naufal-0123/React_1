@@ -8,6 +8,9 @@ import NotFound from './Pages/notfound';
 import Phone from './Pages/setting/phone';
 import Profile from './Pages/setting/profile';
 import Computer from './Pages/setting/computer';
+import Apple from './Pages/setting/computer/apple';
+import Asus from './Pages/setting/computer/asus';
+import Acer from './Pages/setting/computer/acer';
 
 function App () {
   return(
@@ -46,12 +49,16 @@ function App () {
       <Route path='/setting' element={<Setting/>} >
       <Route path='phone' element={<Phone/>} />
       <Route path='profile' element={<Profile/>} />
-      <Route path='computer' element={<Computer/>} />
+      <Route path='computer' element={<Computer/>} >
+      <Route path='apple' element={<Apple/>} />
+      <Route path='asus' element={<Asus/>} />
+      <Route path='acer' element={<Acer/>} />
+      </Route>
       </Route>
       <Route path='/about/:id/:hewan' element={<Detail/>} />
       <Route path='/404' element={<NotFound/>} />
       <Route path='/home' element={<Navigate to="/" replace />} />
-      <Route path='*'element={<Navigate to="/404" replace />} />
+      {/* <Route path='*'element={<Navigate to="/404" replace />} /> */}
     </Routes>
     </React.Fragment>
     
