@@ -12,9 +12,9 @@ export default function Settings() {
     return(
         <div className="grid grid-cols-8 border">
             <section className="space-x-5 col-span-5 ">
-                <Link to={`/${path} /phone`}>Phone</Link>
-                <Link to={`/${path} /profile`}>Profile</Link>
-                <Link to={`/${path} /computer`}>Computer</Link>
+                <Link to={`/${path}/phone`}>Phone</Link>
+                <Link to={`/${path}/profile`}>Profile</Link>
+                <Link to={`/${path}/computer`}>Computer</Link>
             </section>
             <section className="col-span-7 border">
                 <Outlet/>

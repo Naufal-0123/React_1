@@ -47,14 +47,14 @@ function App () {
       <Route path='/about' element={<About/>} />
       
       <Route path='/setting' element={<Setting/>} >
-      <Route path='phone' element={<Phone/>} />
-      <Route path='profile' element={<Profile/>} />
-      <Route path='computer' element={<Computer/>} >
-      <Route path='apple' element={<Apple/>} />
-      <Route path='asus' element={<Asus/>} />
-      <Route path='acer' element={<Acer/>} />
-      </Route>
-      </Route>
+      <Route path='/setting/phone' element={<Phone/>} />
+          <Route path='/setting/profile' element={<Profile/>} />
+          <Route path='/setting/computer' element={<Computer/>} >
+            <Route path='apple' element={<Apple/>} />
+            <Route path='asus' element={<Asus/>} />
+            <Route path='acer' element={<Acer/>} />
+          </Route>
+        </Route>
       <Route path='/about/:id/:hewan' element={<Detail/>} />
       <Route path='/404' element={<NotFound/>} />
       <Route path='/home' element={<Navigate to="/" replace />} />
