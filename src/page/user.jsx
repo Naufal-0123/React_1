@@ -54,10 +54,10 @@ export default function User() {
           })}
         </tbody>
       </table>
-      <p>Saat ini di Page {page}</p>
+      {/* <p>Saat ini di Page {page}</p> */}
 
       <div className="flex items-center justify-center">
-        <button
+        {/* <button
           className="mx-10"
           onClick={() => {
             console.log('running?');
@@ -74,7 +74,7 @@ export default function User() {
           }}
         >
           Next
-        </button>
+        </button> */}
       </div>
     </div>
   );
