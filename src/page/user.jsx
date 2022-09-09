@@ -10,9 +10,9 @@ export default function User() {
 
   const getUserHandle = async () => {
     try {
-      const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+      const response = await axios.get(`https://equran.id/api/surat`);
       console.log("response => ", response.data);
-      setUsers(response.data.data);
+      setUsers(response.data);
       setPage(response.data.page);
       setPerPage(response.data.per_page);
     } catch (err) {}
@@ -28,16 +28,15 @@ export default function User() {
 
   return (
     <div>
-      <h1>User who is accepted</h1>
       <table className="table-auto ">
         <thead>
           <tr className="text-left border">
             <th className="pr-5">No</th>
-            <th className="pr-15">Email</th>
-            <th className="pr-5">First Name</th>
-            <th className="pr-5">Last Name</th>
-            <th className="pr-5">Avatar</th>
-            <th>Detail</th>
+            <th className="pr-5">Nama</th>
+            <th className="pr-5">Nama latin</th>
+            <th className="pr-5">Jumlah ayat</th>
+            <th className="pr-5">Tempat turun</th>
+            <th className="pr-5">Arti</th>       
           </tr>
         </thead>
         <tbody>
@@ -45,13 +44,11 @@ export default function User() {
             return (
               <tr key={index} className="border">
                 <td>{index + 1}</td>
-                <td>{user.email}</td>
-                <td>{user.first_name}</td>
-                <td>{user.last_name}</td>
-                <td>
-                  <img className="rounded-full h-10 w-10" src={user.avatar} alt={user.avatar} />
-                </td>
-                <td>Detail</td>
+                <td>{user.nama}</td>
+                <td>{user.nama_latin}</td>
+                <td>{user.jumlah_ayat}</td>
+                <td>{user.tempat_turun}</td>
+                <td>{user.arti}</td>
               </tr>
             );
           })}
