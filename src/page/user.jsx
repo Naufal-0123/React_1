@@ -1,16 +1,17 @@
 import React from "react";
 import axios from "axios";
+import { Link, Navigate } from "react-router-dom";
 
 export default function User() {
   const [users, setUsers] = React.useState([]);
   //state untuk menyimpan data user dari api
 
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(100);
   const [perPage, setPerPage] = React.useState(2);
 
   const getUserHandle = async () => {
     try {
-      const response = await axios.get(`https://reqres.in/api/users?page=${page}`);
+      const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`);
       console.log("response => ", response.data);
       setUsers(response.data.data);
       setPage(response.data.page);
@@ -28,16 +29,17 @@ export default function User() {
 
   return (
     <div>
-      <h1>User who is accepted</h1>
+      <h1>Tabel User</h1>
+      <Link to="/user/create">Tambah user</Link>
       <table className="table-auto ">
         <thead>
           <tr className="text-left border">
             <th className="pr-5">No</th>
-            <th className="pr-15">Email</th>
-            <th className="pr-5">First Name</th>
-            <th className="pr-5">Last Name</th>
-            <th className="pr-5">Avatar</th>
-            <th>Detail</th>
+            <th className="pr-5">User Name</th>
+            <th className="pr-5">Email</th>
+            <th className="pr-5">Jenis Kelamin</th>
+            <th className="pr-5">Stored At</th>
+            <th className="pr-5">Updated At</th>
           </tr>
         </thead>
         <tbody>
@@ -45,13 +47,11 @@ export default function User() {
             return (
               <tr key={index} className="border">
                 <td>{index + 1}</td>
+                <td>{user.username}</td>
                 <td>{user.email}</td>
-                <td>{user.first_name}</td>
-                <td>{user.last_name}</td>
-                <td>
-                  <img className="rounded-full h-10 w-10" src={user.avatar} alt={user.avatar} />
-                </td>
-                <td>Detail</td>
+                <td>{user.jenis_kelamin}</td>
+                <td>{user.stored_at}</td>
+                <td>{user.updated_at}</td>
               </tr>
             );
           })}
@@ -61,7 +61,7 @@ export default function User() {
 
       <div className="flex items-center justify-center">
         <button
-          className="mx-10"
+          className="mx-5"
           onClick={() => {
             console.log('running?');
             setPage(page - 1);
@@ -70,7 +70,7 @@ export default function User() {
           Previos
         </button>
         <button
-          className="mx-10"
+          className="mx-5"
           onClick={() => {
             console.log('running?');
             setPage(page + 1);
