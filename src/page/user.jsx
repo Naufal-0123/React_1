@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Button from "../komponen/button";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function User() {
+  let navigate = useNavigate();
   const [users, setUsers] = React.useState([]);
   //state untuk menyimpan data user dari api
-
   const [page, setPage] = React.useState(100);
   const [perPage, setPerPage] = React.useState(2);
 
@@ -40,6 +41,7 @@ export default function User() {
             <th className="pr-5">Jenis Kelamin</th>
             <th className="pr-5">Stored At</th>
             <th className="pr-5">Updated At</th>
+            <th className="pr-5">Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -52,6 +54,14 @@ export default function User() {
                 <td>{user.jenis_kelamin}</td>
                 <td>{user.stored_at}</td>
                 <td>{user.updated_at}</td>
+                <td>
+                  <Button onClick={()=>{
+                    return navigate(`/user/update/${user.id}`)
+                  }}
+                  color="blue" title={"Edit"}
+                  />
+                  <Button color="red" title={"Delete"}/>
+                </td>
               </tr>
             );
           })}
@@ -60,7 +70,7 @@ export default function User() {
       <p>Saat ini di Page {page}</p>
 
       <div className="flex items-center justify-center">
-        <button
+        {/* <button
           className="mx-5"
           onClick={() => {
             console.log('running?');
@@ -77,7 +87,7 @@ export default function User() {
           }}
         >
           Next
-        </button>
+        </button> */}
       </div>
     </div>
   );

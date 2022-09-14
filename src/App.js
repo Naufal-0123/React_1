@@ -3,6 +3,7 @@ import {Routes, Route, Navigate} from "react-router-dom"
 import User from './page/user';
 import DetailUser from './page/detailUser';
 import CreateUser from './page/createUser';
+import UpdateUser from './page/updateUser';
 
 function App () {
 
@@ -13,6 +14,7 @@ function App () {
       <Route path='/user' element={<User/>} />
       <Route path='/user/:id/detail' element={<DetailUser/>} />
       <Route path='/user/create' element={<CreateUser/>} />
+      <Route path='/user/update/:id' element={<UpdateUser/>} />
       <Route path='*' element={<Navigate to="/user" replace={true}/>} /> 
      </Routes>
     </React.Fragment>

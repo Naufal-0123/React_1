@@ -28,20 +28,19 @@
 
 import React from 'react';
 
-export default function Button({title, color = "red", disabled, ...props}) {
+export default function Button({ title, color = "red",...props}) {
     return (
-        <React.Fragment>
-            <button
-                disabled={disabled}
-               {...props}
-                style={{
-                    backgroundColor: color,
-                    opacity: disabled ? 0.1 : 1
-                }}
-                className="button"
-            >
-                {title}
-            </button>
-        </React.Fragment>
-    )
-}
+      <React.Fragment>
+        <button
+         {...props}
+          style={{
+            backgroundColor: color,
+
+          }}
+          className="h-10 w-24 text-white rounded"
+        >
+          {title}
+        </button>
+      </React.Fragment>
+    );
+  }

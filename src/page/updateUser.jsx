@@ -2,11 +2,12 @@ import React from "react";
 import Input from "../komponen/input";
 import Button from "../komponen/button"
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import Select from "../komponen/select";
 
-export default function CreateUser(){
+export default function UpdateUser(){
     let navigate = useNavigate();
+    let {id} = useParams();
     const [isLoading, setIsLoading] = React.useState(false)
     const [users,setUsers] = React.useState({
         username: "",
@@ -29,9 +30,8 @@ export default function CreateUser(){
         console.log(users);
         try{
             setIsLoading(true);
-            const response = await axios.post('https://belajar-react.smkmadinatulquran.sch.id/api/users/create', users)
+            const response = await axios.put(`https://belajar-react.smkmadinatulquran.sch.id/api/users/update/${id}`)
             setIsLoading(false)
-            console.log(response)
             // return navigate ('/users')
         }
         catch (err) {
@@ -40,10 +40,33 @@ export default function CreateUser(){
             alert("Terjadi Kesalahan");
         }
     }
+    const getDetailUser = async(id)=> {
+        try{
+            const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/detail/$(id)`)
+            console.log('response =>',response.data.data);
+            const dataUser = response.data.data;
+            console.log(dataUser);
+            setUsers(()=> {
+                return{
+                    username: dataUser.username,
+                    email: dataUser.email,
+                    name: dataUser.name,
+                    jenis_Kelamin: dataUser.jenis_Kelamin,
+                }
+            })
+        }
+        catch (err){
+
+        }
+    }
+    React.useEffect(()=> {
+        getDetailUser(id)
+    },[])
+
     return(
         <div>
             <h1>
-                Tambah User
+                Update User {id}
             </h1>
             <form onSubmit={handleSubmit}>
                <div>
@@ -58,13 +81,10 @@ export default function CreateUser(){
                     <option value={"laki-laki"}>Laki-Laki</option>
                     <option value={"prempuan"}>Prempuan</option>
                 </Select>
-                
-                <Input values={users.password} label={'Password'} name={"password"}  placeholder={"Password"} onChange={handleChange}/>
-                <Input values={users.password_confirmation} label={'Password confirmation'} name={"password_confirmation"}  placeholder={"Confirm Password"} onChange={handleChange}/>
-                    <Button title={isLoading ? 'sedang menyimpan' : 'simpan'}/>
-                    <Link to={'/user'} className='pl-5'>
-                      <Button title={'Back to user'}/>
-                    </Link>
+                    <Button title={isLoading ? 'sedang menyimpan' : 'update'}/>
+                     <Link to={'/user'} className='pl-5'>
+                       <Button title={'Back to user'}/>
+                     </Link>
                </div>
             </form>
         </div>
