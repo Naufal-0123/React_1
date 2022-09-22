@@ -4,8 +4,8 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Admin from "./pages/admin";
 import Dashboard from "./pages/admin/dashboard";
-import Class from "./pages/admin/class";
-import User from "./pages/admin/user";
+import Book from "./pages/admin/book";
+import About from "./pages/admin/about";
 
 export default function App() {
   return (
@@ -16,8 +16,8 @@ export default function App() {
         <Route path="register" element={<Register />}></Route>
         <Route path="admin" element={<Admin />}>
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="class" element={<Class />} />
-            <Route path="user" element={<User />} />
+            <Route path="book" element={<Book />} />
+            <Route path="about" element={<About />} />
           </Route>
       </Routes>
     </React.Fragment>

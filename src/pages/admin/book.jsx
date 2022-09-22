@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useParams, useLocation } from "react-router-dom";
 
-export default function User() {
+export default function Book() {
   const [user, setUser] = React.useState([
     {
       name: "Akbar",
