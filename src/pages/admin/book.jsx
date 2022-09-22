@@ -29,7 +29,7 @@ export default function Book(){
         console.log(users);
         try{
             setIsLoading(true);
-            const response = await axios.post('https://belajar-react.smkmadinatulquran.sch.id/api/users/create', users)
+            const response = await axios.get('https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222', users)
             setIsLoading(false)
             console.log(response)
             // return navigate ('/users')
