@@ -1,66 +1,99 @@
 import React from "react";
-import Input from "../komponen/input";
-import Button from "../komponen/button";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import Button from "../komponen/button";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function Book(){
-    let navigate = useNavigate();
-    const [isLoading, setIsLoading] = React.useState(false)
-    const [users,setUsers] = React.useState({
-        judul_buku: "",
-        nama_pengarang: "",
-        nama_penerbit_buku: "",
-        ketebalan_buku: "",
-        tahun_terbit: "",
-        sinopsis: "",
-        kode_penulis: "",
-    })
-    const handleChange = (e) => {
-        setUsers((users) => {
-            return{
-                ...users,
-                [e.target.name]: e.target.value,
-            }
-        })
-    }
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        console.log(users);
-        try{
-            setIsLoading(true);
-            const response = await axios.get('https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222', users)
-            setIsLoading(false)
-            console.log(response)
-            // return navigate ('/users')
-        }
-        catch (err) {
-            console.log(err)
-            setIsLoading(false);
-            alert("Terjadi Kesalahan");
-        }
-    }
-    return(
-        <div>
-            <h1>
-                Tambah Buku
-            </h1>
-            <form onSubmit={handleSubmit}>
-               <div>
-                <Input values={users.judul_buku} label={'Judul Buku'} name={"judul_buku"} placeholder={"Judul Buku"} onChange={handleChange}/>
-                <Input values={users.nama_pengarang} label={'Nama pengarang'} name={"nama_pengarang"}  placeholder={"Nama Pengarang"} onChange={handleChange}/>
-                <Input values={users.nama_penerbit_buku} label={'Nama Penerbit buku'} name={"nama_penerbit_buku"}  placeholder={"Nama Penerbit Buku"} onChange={handleChange}/>
-                
-                <Input values={users.ketebalan_buku} label={'Ketebalan Buku'} name={"ketebalan_buku"}  placeholder={"Ketebalan Buku"} onChange={handleChange}/>
-                <Input values={users.tahun_terbit} label={'Tahun Terbit'} name={"tahun_terbit"}  placeholder={"Tahun Terbit"} onChange={handleChange}/>
-                <Input values={users.sinopsis} label={'Sinopsis'} name={"sinopsis"}  placeholder={"Sinopsis"} onChange={handleChange}/>
-                <Input values={users.kode_penulis} label={'Kode Penulis'} name={"kode_penulis"}  placeholder={"Kode Penulis"} onChange={handleChange}/>
-                    <Button title={isLoading ? 'sedang menyimpan' : 'simpan'}/>
-                    <Link to={'/login'} className='pl-5'>
-                      <Button title={'Back to login'}/>
-                    </Link>
-               </div>
-            </form>
-        </div>
-    )
+export default function Book() {
+  let navigate = useNavigate();
+  const [users, setUsers] = React.useState([]);
+  //state untuk menyimpan data user dari api
+  const [page, setPage] = React.useState(100);
+  const [perPage, setPerPage] = React.useState(2);
+
+  const getUserHandle = async () => {
+    try {
+      const response = await axios.get(`https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222`);
+      console.log("response => ", response.data.data.data);
+      setUsers(response.data.data.data);
+    } catch (err) {}
+  };
+
+  console.log("user => ", users);
+  console.log("page => ", page);
+  console.log("per page => ", perPage);
+
+  React.useEffect(() => {
+    getUserHandle();
+  }, [page]);
+
+  return (
+    <div>
+      <h1>Tabel User</h1>
+      <Link to="/book/create">Tambah Buku</Link>
+      <table className="table-auto ">
+        <thead>
+          <tr className="text-left border">
+            <th className="pr-2">No</th>
+            <th className="pr-2">Judul Buku</th>
+            <th className="pr-2">Nama Pengarang</th>
+            <th className="pr-2">Nama Penerbit Buku</th>
+            <th className="pr-2">Tahun Terbit Buku</th>
+            <th className="pr-2">Ketebalan Buku</th>
+            <th className="pr-2">Sinopsis</th>
+            <th className="pr-2">Cover</th>
+            <th className="pr-2">Created At</th>
+            <th className="pr-2">Updated At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users?.map((user, index) => {
+            return (
+              <tr key={index} className="border">
+                <td>{index + 1}</td>
+                <td>{user.judul_buku}</td>
+                <td>{user.nama_pengarang}</td>
+                <td>{user.nama_penerbit_buku}</td>
+                <td>{user.tahun_terbit_buku}</td>
+                <td>{user.ketebalan_buku}</td>
+                <td>{user.sinopsis}</td>
+                <td>{user.cover}</td>
+                <td>{user.created_at}</td>
+                <td>{user.updated_at}</td>
+                <td>
+                  <Button onClick={()=>{
+                    return navigate(`/bookDetail/update/${user.id}`)
+                  }}
+                  color="blue" title={"Edit"}
+                  />
+                  <Button color="red" title={"Delete"}/>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p>Saat ini di Page {page}</p>
+
+      <div className="flex items-center justify-center">
+        {/* <button
+          className="mx-5"
+          onClick={() => {
+            console.log('running?');
+            setPage(page - 1);
+          }}
+        >
+          Previos
+        </button>
+        <button
+          className="mx-5"
+          onClick={() => {
+            console.log('running?');
+            setPage(page + 1);
+          }}
+        >
+          Next
+        </button> */}
+      </div>
+    </div>
+  );
 }
