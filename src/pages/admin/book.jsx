@@ -7,8 +7,6 @@ export default function Book() {
   let navigate = useNavigate();
   const [users, setUsers] = React.useState([]);
   //state untuk menyimpan data user dari api
-  const [page, setPage] = React.useState(100);
-  const [perPage, setPerPage] = React.useState(2);
 
   const getUserHandle = async () => {
     try {
@@ -19,12 +17,10 @@ export default function Book() {
   };
 
   console.log("user => ", users);
-  console.log("page => ", page);
-  console.log("per page => ", perPage);
 
   React.useEffect(() => {
     getUserHandle();
-  }, [page]);
+  }, []);
 
   return (
     <div>
@@ -40,7 +36,6 @@ export default function Book() {
             <th className="pr-2">Tahun Terbit Buku</th>
             <th className="pr-2">Ketebalan Buku</th>
             <th className="pr-2">Sinopsis</th>
-            <th className="pr-2">Cover</th>
             <th className="pr-2">Created At</th>
             <th className="pr-2">Updated At</th>
           </tr>
@@ -56,12 +51,11 @@ export default function Book() {
                 <td>{user.tahun_terbit_buku}</td>
                 <td>{user.ketebalan_buku}</td>
                 <td>{user.sinopsis}</td>
-                <td>{user.cover}</td>
                 <td>{user.created_at}</td>
                 <td>{user.updated_at}</td>
                 <td>
                   <Button onClick={()=>{
-                    return navigate(`/bookDetail/update/${user.id}`)
+                    return navigate(`/book/update/${user.id}`)
                   }}
                   color="blue" title={"Edit"}
                   />
@@ -72,7 +66,6 @@ export default function Book() {
           })}
         </tbody>
       </table>
-      <p>Saat ini di Page {page}</p>
 
       <div className="flex items-center justify-center">
         {/* <button
