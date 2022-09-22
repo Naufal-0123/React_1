@@ -4,7 +4,7 @@ export default function UserDetail() {
 const navigate = useNavigate()
 const {id, kelas} = useParams()
 const handleBack = () => {
-  return navigate("/admin/user", {replace: true})
+  return navigate("/admin/book", {replace: true})
 }
 
   return (
