@@ -10,7 +10,9 @@ export default function Book() {
 
   const getUserHandle = async () => {
     try {
-      const response = await axios.get(`https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222`);
+      const response = await axios.get(
+        `https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222`
+      );
       console.log("response => ", response.data.data.data);
       setUsers(response.data.data.data);
     } catch (err) {}
@@ -24,8 +26,8 @@ export default function Book() {
 
   return (
     <div>
-      <h1>Tabel User</h1>
-      <Link to="/book/create">Tambah Buku</Link>
+      <h1>Tabel Buku</h1>
+      <Link to="/admin/book/create">Tambah Buku</Link>
       <table className="table-auto ">
         <thead>
           <tr className="text-left border">
@@ -54,12 +56,14 @@ export default function Book() {
                 <td>{user.created_at}</td>
                 <td>{user.updated_at}</td>
                 <td>
-                  <Button onClick={()=>{
-                    return navigate(`/book/update/${user.id}`)
-                  }}
-                  color="blue" title={"Edit"}
+                  <Button
+                    onClick={() => {
+                      return navigate(`/admin/book/update/${user.id}`);
+                    }}
+                    color="blue"
+                    title={"Edit"}
                   />
-                  <Button color="red" title={"Delete"}/>
+                  <Button color="red" title={"Delete"} />
                 </td>
               </tr>
             );
