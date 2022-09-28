@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Button from "../komponen/button";
+import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function User() {
@@ -9,15 +10,49 @@ export default function User() {
   //state untuk menyimpan data user dari api
   const [page, setPage] = React.useState(100);
   const [perPage, setPerPage] = React.useState(2);
+  const [isPatchUser, setPatchUser] = React.useState(false)
 
   const getUserHandle = async () => {
     try {
-      const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`);
+      setPatchUser(true)
+      const response = await axios.get(
+        `https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`
+      );
       console.log("response => ", response.data);
       setUsers(response.data.data);
       setPage(response.data.page);
       setPerPage(response.data.per_page);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }finally{
+      setPatchUser(false)
+    }
+  };
+
+  const deleteUserHandle = (id) => {
+    console.log("button delete berjalan", id);
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(
+            `https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`
+          );
+          getUserHandle();
+          Swal.fire("Deleted!", "User has been deleted.", "success");
+        } catch (error) {
+          Swal.fire("Gagal!", "User tidak di temukan", "error");
+        }
+      }
+    });
   };
 
   console.log("user => ", users);
@@ -45,7 +80,9 @@ export default function User() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => {
+          {isPatchUser ? (<tr>
+            <td colSpan={9}></td>
+          </tr>) : users.map((user, index) => {
             return (
               <tr key={index} className="border">
                 <td>{index + 1}</td>
@@ -55,12 +92,20 @@ export default function User() {
                 <td>{user.stored_at}</td>
                 <td>{user.updated_at}</td>
                 <td>
-                  <Button onClick={()=>{
-                    return navigate(`/user/update/${user.id}`)
-                  }}
-                  color="blue" title={"Edit"}
+                  <Button
+                    onClick={() => {
+                      return navigate(`/user/update/${user.id}`);
+                    }}
+                    color="blue"
+                    title={"Edit"}
                   />
-                  <Button color="red" title={"Delete"}/>
+                  <Button
+                    onClick={() => {
+                      deleteUserHandle(user.id);
+                    }}
+                    color="red"
+                    title={"Delete"}
+                  />
                 </td>
               </tr>
             );
@@ -69,26 +114,7 @@ export default function User() {
       </table>
       <p>Saat ini di Page {page}</p>
 
-      <div className="flex items-center justify-center">
-        {/* <button
-          className="mx-5"
-          onClick={() => {
-            console.log('running?');
-            setPage(page - 1);
-          }}
-        >
-          Previos
-        </button>
-        <button
-          className="mx-5"
-          onClick={() => {
-            console.log('running?');
-            setPage(page + 1);
-          }}
-        >
-          Next
-        </button> */}
-      </div>
+      <div className="flex items-center justify-center"></div>
     </div>
   );
 }
