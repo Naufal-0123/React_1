@@ -4,6 +4,8 @@ import Button from "../komponen/button";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
+import { getAllUser } from "../API/user";
+
 
 export default function User() {
   let navigate = useNavigate();
@@ -18,7 +20,7 @@ export default function User() {
   const getUserHandle = async () => {
     try {
       setIsFetchUser(true)
-      const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`);
+      const response = await getAllUser(page);
       console.log("response => ", response.data);
       setUsers(response.data.data);
     } catch (err) {
@@ -82,7 +84,7 @@ export default function User() {
           </tr>
         </thead>
         <tbody>
-          {!isFetchUser ?
+          {isFetchUser ?
           <tr>
             <td colSpan={9}>loading</td>
           </tr> : users?.map((user, index) => {
@@ -119,7 +121,7 @@ export default function User() {
       <p>Saat ini di Page {page}</p>
 
       <div className="flex items-center justify-center">
-        <button
+        {/* <button
           className="mx-10"
           onClick={() => {
             console.log("running?");
@@ -136,7 +138,7 @@ export default function User() {
           }}
         >
           Next
-        </button>
+        </button> */}
       </div>
     </div>
   );

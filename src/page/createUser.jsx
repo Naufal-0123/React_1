@@ -4,8 +4,9 @@ import Button from "../komponen/button";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import Select from "../komponen/select";
+import { createUser } from "../API/user";
 
-export default function CreateUser() {
+export default function CreateUserPage() {
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
   let [errorMessage, setErrorMessage] = React.useState("Lagi Error Cuy");
@@ -31,10 +32,7 @@ export default function CreateUser() {
     console.log(users);
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "https://belajar-react.smkmadinatulquran.sch.id/api/users/create",
-        users
-      );
+      const response = await createUser(users);
       setIsLoading(false);
       console.log(response);
       // return navigate ('/users')

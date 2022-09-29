@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Select from "../komponen/select";
 import User from "./user";
+import { detailUser, updateUser } from "../API/user";
 
 export default function UpdateUser() {
   let navigate = useNavigate();
@@ -29,24 +30,20 @@ export default function UpdateUser() {
     console.log(users);
     try {
       setIsLoading(true);
-      const response = await axios.put(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/update/${id}`,User
-      );
+      const response = await updateUser(users, id);
       setIsLoading(false);
       return navigate("/user");
       // return navigate ('/users')
     } catch (err) {
       console.log(err);
       setIsLoading(false);
-    //   alert("Terjadi Kesalahan");
+      //   alert("Terjadi Kesalahan");
     }
   };
   const getDetailUser = async (id) => {
     try {
-      const response = await axios.get(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/detail/${id}`
-      );
-      console.log(response.data.data);
+      const response = await detailUser(id);
+      console.log("response =>",response.data);
       const dataUser = response.data.data;
       console.log(dataUser);
       setUsers(() => {
