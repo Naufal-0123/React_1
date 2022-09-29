@@ -3,35 +3,32 @@ import axios from "axios";
 import Button from "../komponen/button";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
 export default function User() {
   let navigate = useNavigate();
+  
   const [users, setUsers] = React.useState([]);
   //state untuk menyimpan data user dari api
-  const [page, setPage] = React.useState(100);
-  const [perPage, setPerPage] = React.useState(2);
-  const [isPatchUser, setPatchUser] = React.useState(false)
+
+  const [page, setPage] = React.useState(150);
+  // const [perPage, setPerPage] = React.useState(2);
+  const [isFetchUser, setIsFetchUser] = React.useState(false)
 
   const getUserHandle = async () => {
     try {
-      setPatchUser(true)
-      const response = await axios.get(
-        `https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`
-      );
+      setIsFetchUser(true)
+      const response = await axios.get(`https://belajar-react.smkmadinatulquran.sch.id/api/users/${page}`);
       console.log("response => ", response.data);
       setUsers(response.data.data);
-      setPage(response.data.page);
-      setPerPage(response.data.per_page);
     } catch (err) {
-      console.log(err)
+
     }finally{
-      setPatchUser(false)
+      setIsFetchUser(false)
     }
   };
 
   const deleteUserHandle = (id) => {
-    console.log("button delete berjalan", id);
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -43,21 +40,23 @@ export default function User() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(
-            `https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`
-          );
-          getUserHandle();
-          Swal.fire("Deleted!", "User has been deleted.", "success");
+          const response = await axios.delete(`https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+          console.log("delete working", id);
         } catch (error) {
-          Swal.fire("Gagal!", "User tidak di temukan", "error");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="">Why do I have this issue?</a>',
+          });
         }
       }
     });
   };
 
-  console.log("user => ", users);
-  console.log("page => ", page);
-  console.log("per page => ", perPage);
+  // console.log("user => ", users);
+  // console.log("page => ", page);
 
   React.useEffect(() => {
     getUserHandle();
@@ -65,32 +64,37 @@ export default function User() {
 
   return (
     <div>
-      <h1>Tabel User</h1>
-      <Link to="/user/create">Tambah user</Link>
+      <h1>User who is accepted</h1>
+      <Link to="/user/create">
+        <Button title={"Add User"} />
+      </Link>
       <table className="table-auto ">
         <thead>
           <tr className="text-left border">
             <th className="pr-5">No</th>
-            <th className="pr-5">User Name</th>
+            <th className="pr-10">Username</th>
+            <th className="pr-5">Nama</th>
             <th className="pr-5">Email</th>
             <th className="pr-5">Jenis Kelamin</th>
-            <th className="pr-5">Stored At</th>
-            <th className="pr-5">Updated At</th>
-            <th className="pr-5">Aksi</th>
+            <th className="pr-5">Dibuat</th>
+            <th className="pr-5">Diupdate</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {isPatchUser ? (<tr>
-            <td colSpan={9}></td>
-          </tr>) : users.map((user, index) => {
+          {!isFetchUser ?
+          <tr>
+            <td colSpan={9}>loading</td>
+          </tr> : users?.map((user, index) => {
             return (
               <tr key={index} className="border">
                 <td>{index + 1}</td>
                 <td>{user.username}</td>
+                <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.jenis_kelamin}</td>
                 <td>{user.stored_at}</td>
-                <td>{user.updated_at}</td>
+                <td>{user.update_at}</td>
                 <td>
                   <Button
                     onClick={() => {
@@ -114,7 +118,26 @@ export default function User() {
       </table>
       <p>Saat ini di Page {page}</p>
 
-      <div className="flex items-center justify-center"></div>
+      <div className="flex items-center justify-center">
+        <button
+          className="mx-10"
+          onClick={() => {
+            console.log("running?");
+            setPage(page - 1);
+          }}
+        >
+          Previos
+        </button>
+        <button
+          className="mx-10"
+          onClick={() => {
+            console.log("running?");
+            setPage(page + 1);
+          }}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
