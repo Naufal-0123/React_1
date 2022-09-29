@@ -11,14 +11,21 @@ export default function Login() {
   };
   return (
     <div className="">
-        <h1>
-            Login pages
-        </h1>
+      <h1>Login pages</h1>
       <div className="space-x-2">
-      <button  className="p-2 bg-green-500 text-white rounded-xl" onClick={handleRegister}>Home</button>
-      <button  className="p-2 bg-green-500 text-white rounded-xl"onClick={handleLogin}>Login</button>
+        <button
+          className="p-2 bg-green-500 text-white rounded-xl"
+          onClick={handleRegister}
+        >
+          Home
+        </button>
+        <button
+          className="p-2 bg-green-500 text-white rounded-xl"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
       </div>
     </div>
   );
 }
-

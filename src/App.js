@@ -15,12 +15,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="login" element={<Login />}></Route>
-        <Route path="register" element={<Register />}></Route>
         <Route path="admin" element={<Admin />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="book" element={<Book />} />
             <Route path="book/create" element={<CreateBook />} />
-            <Route path="book/update:id" element={<UpdateBook />} />
+            <Route path="book/:id/update" element={<UpdateBook />} />
             <Route path="about" element={<About />} />
             <Route path='*' element={<Navigate to="/book" replace={true}/>} /> 
           </Route>

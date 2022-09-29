@@ -10,7 +10,9 @@ export default function Book() {
 
   const getUserHandle = async () => {
     try {
-      const response = await axios.get(`https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222`);
+      const response = await axios.get(
+        `https://api-react-2.herokuapp.com/api/perpustakaan?kode=22222`
+      );
       console.log("response => ", response.data.data.data);
       setUsers(response.data.data.data);
     } catch (err) {}
@@ -54,12 +56,14 @@ export default function Book() {
                 <td>{user.created_at}</td>
                 <td>{user.updated_at}</td>
                 <td>
-                  <Button onClick={()=>{
-                    return navigate(`/book/update/${user.id}`)
-                  }}
-                  color="blue" title={"Edit"}
+                  <Button
+                    onClick={() => {
+                      return navigate(`/book/update/${user.id}`);
+                    }}
+                    color="blue"
+                    title={"Edit"}
                   />
-                  <Button color="red" title={"Delete"}/>
+                  <Button color="red" title={"Delete"} />
                 </td>
               </tr>
             );
@@ -68,24 +72,6 @@ export default function Book() {
       </table>
 
       <div className="flex items-center justify-center">
-        {/* <button
-          className="mx-5"
-          onClick={() => {
-            console.log('running?');
-            setPage(page - 1);
-          }}
-        >
-          Previos
-        </button>
-        <button
-          className="mx-5"
-          onClick={() => {
-            console.log('running?');
-            setPage(page + 1);
-          }}
-        >
-          Next
-        </button> */}
       </div>
     </div>
   );
