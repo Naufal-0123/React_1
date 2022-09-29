@@ -13,5 +13,5 @@ export async function updateUser(payload, id){
 }
 
 export async function detailUser(id){
-    return axios.get(`/users/detail${id}`)
+    return axios.get(`/users/detail/${id}`)
 }

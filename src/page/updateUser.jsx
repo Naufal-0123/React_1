@@ -45,7 +45,7 @@ export default function UpdateUser() {
       const response = await detailUser(id);
       console.log("response =>",response.data);
       const dataUser = response.data.data;
-      console.log(dataUser);
+      console.log( "data user",dataUser);
       setUsers(() => {
         return {
           username: dataUser.username,
@@ -66,21 +66,21 @@ export default function UpdateUser() {
       <form onSubmit={handleSubmit}>
         <div>
           <Input
-            values={users.username}
+            value={users.username}
             label={"Username"}
             name={"username"}
             placeholder={"Username"}
             onChange={handleChange}
           />
           <Input
-            values={users.name}
+            value={users.name}
             label={"Name"}
             name={"name"}
             placeholder={"Name"}
             onChange={handleChange}
           />
           <Input
-            values={users.email}
+            value={users.email}
             label={"Email"}
             type="email"
             name={"email"}
@@ -89,7 +89,7 @@ export default function UpdateUser() {
           />
 
           <Select
-            values={users.jenis_kelamin}
+            value={users.jenis_kelamin}
             label={"Jenis kelamin"}
             name={"jenis_kelamin"}
             placeholder={"Jenis Kelamin"}
