@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { getAllUser } from "../API/user";
+import Cookies from "js-cookie";
 
 
 export default function User() {
@@ -68,8 +69,15 @@ export default function User() {
     <div>
       <h1>User who is accepted</h1>
       <Link to="/user/create">
-        <Button title={"Add User"} />
+        <Button title={"Add User"} color="blue"/>
       </Link>
+      <Button 
+        title='Logout'
+        onClick={() => {
+          Cookies.remove("myapps_token")
+          return navigate("/login", {replace:true})
+        }}
+      />
       <table className="table-auto ">
         <thead>
           <tr className="text-left border">
@@ -83,7 +91,7 @@ export default function User() {
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody> 
           {isFetchUser ?
           <tr>
             <td colSpan={9}>loading</td>
@@ -121,24 +129,6 @@ export default function User() {
       <p>Saat ini di Page {page}</p>
 
       <div className="flex items-center justify-center">
-        {/* <button
-          className="mx-10"
-          onClick={() => {
-            console.log("running?");
-            setPage(page - 1);
-          }}
-        >
-          Previos
-        </button>
-        <button
-          className="mx-10"
-          onClick={() => {
-            console.log("running?");
-            setPage(page + 1);
-          }}
-        >
-          Next
-        </button> */}
       </div>
     </div>
   );
