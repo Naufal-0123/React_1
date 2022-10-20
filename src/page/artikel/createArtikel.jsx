@@ -89,7 +89,7 @@ export default function CreateArtikel() {
         <img src={payload.imagePreview} alt={payload.imagePreview} className="w-[200px]"/>
         <Button title={"Simpan"} />
         <Link to={"/artikel"} className="pl-5">
-          <Button title={"Back artikel"} />
+          <Button color="blue" title={"Back artikel"} />
         </Link>
       </div>
     </form>

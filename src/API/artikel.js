@@ -21,12 +21,12 @@ export async function updateArtikel(id, payload) {
     formData.append("artikel", payload.artikel);
     formData.append("thumbnail", payload.thumbnail);
   
-    return axios.post(`/artikel/update/${id}`, formData)
+    return axios.post(`/artikel/update/${payload?.id}`, formData)
   }
 
-export async function detailArtikel(slug){
-    return axios.get(`/artikel/${slug}`)
-}
+export async function getDetailArtikel(value, payload) {
+    return axios.get(`/artikel/${value}`, payload);
+  }
 
 export async function deleteArtikel(id) {
     return axios.post(`/artikel/delete/${id}`)

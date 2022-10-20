@@ -1,10 +1,8 @@
 import React from "react";
 import Input from "../komponen/input";
 import Button from "../komponen/button";
-import axios from "axios";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import Select from "../komponen/select";
-import User from "./user";
 import { detailUser, updateUser } from "../API/user";
 
 export default function UpdateUser() {
@@ -101,7 +99,7 @@ export default function UpdateUser() {
           </Select>
           <Button title={isLoading ? "sedang menyimpan" : "update"} />
           <Link to={"/user"} className="pl-5">
-            <Button title={"Back to user"} />
+            <Button color="blue" title={"Back to user"} />
           </Link>
         </div>
       </form>

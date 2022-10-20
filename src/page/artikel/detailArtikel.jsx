@@ -1,5 +1,5 @@
 import React from "react";
-import { detailArtikel } from "../../API/artikel";
+import { getDetailArtikel } from "../../API/artikel";
 import { useParams,Link } from "react-router-dom";
 import Button from '../../komponen/button';
 
@@ -13,7 +13,7 @@ export default function DetailArtikel() {
   });
   const getDetailArticle = async () => {
     try {
-      const response = await detailArtikel(slug);
+      const response = await getDetailArtikel(slug);
       const dataArtikel = response.data.data;
       console.log(dataArtikel);
       setArtikel(() => {

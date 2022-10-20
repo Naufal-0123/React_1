@@ -106,7 +106,7 @@ export default function CreateUserPage() {
           <p className="text-red-500">{error?.password_confirmation?.[0]}</p>
           <Button title={isLoading ? "sedang menyimpan" : "simpan"} />
           <Link to={"/user"} className="pl-5">
-            <Button title={"Back to user"} />
+            <Button color="blue" title={"Back to user"} />
           </Link>
         </div>
       </form>
