@@ -1,13 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "../../komponen/button";
 import Input from "../../komponen/input";
 import Cookies from "js-cookie";
 import { loginProses } from "../../API/auth";
+import { useDispatch } from "react-redux";
+import { authLogin } from "../../redux/action/authAction";
+
 
 export default function Login() {
   let navigate = useNavigate();
-
+  let dispatch = useDispatch();
   const [payload, setPayload] = React.useState({
     email: "",
     password: "",
@@ -23,14 +27,19 @@ export default function Login() {
   };
 
   const [isLoading, setIsLoading] = React.useState(false)
+  let [messageError, setMessageError] = React.useState("")
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true)
-      const response = await loginProses(payload);
-      const data = response.data;
-      Cookies.set("myapps_token", data?.token);
-      return navigate("/user", { replace: true });
+      const response = await dispatch(authLogin(payload));
+      console.log('response', response)
+      if(response?.status === 'Success'){
+        return navigate("/artikel", { replace: true });
+      } else {
+        setMessageError(response?.response?.data?.message);
+      }
+    
     } catch (err) {
       console.log(err);
     } finally {
@@ -42,6 +51,7 @@ export default function Login() {
     <>
       <h1>Halaman Login</h1>
       <form onSubmit={handleSubmit}>
+      <p className="text-red-500">{messageError}</p>
         <Input
           name="email"
           placeholder="Email"
@@ -60,6 +70,9 @@ export default function Login() {
           color="blue"
           title={isLoading ? "Proses" : "Login"}
         />
+        <Link to={"/register"} className="pl-5">
+            <Button color="red" title={"Register"} />
+          </Link>
       </form>
     </>
   );

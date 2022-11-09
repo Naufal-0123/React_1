@@ -10,15 +10,31 @@ import ProtechRouth from "./routers/protechRoute";
 import CreateArtikel from "./page/artikel/createArtikel";
 import DetailArtikel from "./page/artikel/detailArtikel";
 import UpdateArtikel from "./page/artikel/updateArtikel";
+import { useSelector } from "react-redux";
+import Register from "./page/auth/register";
 
 function App() {
+  const color = useSelector((state) => state.color)
+  
   return (
     <React.Fragment>
-      <h1 className='bg-red-500 flex items-center justify-center"'>
+      
+      <h1 style={{
+        backgroundColor: color.color
+      }} >
         Belajar API
       </h1>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/artikel"
+          element={
+            <ProtechRouth>
+              <Artikel />
+            </ProtechRouth>
+          }
+        />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/artikel"
           element={

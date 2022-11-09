@@ -6,28 +6,32 @@ import { Link, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import { getAllUser } from "../API/user";
 import Cookies from "js-cookie";
-
+import { useDispatch, useSelector } from "react-redux";
+import { increment, decrement } from "../redux/action/countAction";
 
 export default function User() {
   let navigate = useNavigate();
-  
   const [users, setUsers] = React.useState([]);
   //state untuk menyimpan data user dari api
-
   const [page, setPage] = React.useState(150);
   // const [perPage, setPerPage] = React.useState(2);
-  const [isFetchUser, setIsFetchUser] = React.useState(false)
+  const [isFetchUser, setIsFetchUser] = React.useState(false);
+  const store = useSelector((state) => state);
+  const count = useSelector((state) => state.count);
+ 
+  const dispatch = useDispatch();
 
+  console.log("store", store);
+  console.log("count", count);
   const getUserHandle = async () => {
     try {
-      setIsFetchUser(true)
+      setIsFetchUser(true);
       const response = await getAllUser(page);
       console.log("response => ", response.data);
       setUsers(response.data.data);
     } catch (err) {
-
-    }finally{
-      setIsFetchUser(false)
+    } finally {
+      setIsFetchUser(false);
     }
   };
 
@@ -43,7 +47,9 @@ export default function User() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`);
+          const response = await axios.delete(
+            `https://belajar-react.smkmadinatulquran.sch.id/api/users/hapus/${id}`
+          );
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
           console.log("delete working", id);
         } catch (error) {
@@ -69,13 +75,13 @@ export default function User() {
     <div>
       <h1>User who is accepted</h1>
       <Link to="/user/create">
-        <Button title={"Add User"} color="blue"/>
+        <Button title={"Add User"} color="blue" />
       </Link>
-      <Button 
-        title='Logout'
+      <Button
+        title="Logout"
         onClick={() => {
-          Cookies.remove("myapps_token")
-          return navigate("/login", {replace:true})
+          Cookies.remove("myapps_token");
+          return navigate("/login", { replace: true });
         }}
       />
       <table className="table-auto ">
@@ -91,44 +97,81 @@ export default function User() {
             <th>Action</th>
           </tr>
         </thead>
-        <tbody> 
-          {isFetchUser ?
-          <tr>
-            <td colSpan={9}>loading</td>
-          </tr> : users?.map((user, index) => {
-            return (
-              <tr key={index} className="border">
-                <td>{index + 1}</td>
-                <td>{user.username}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.jenis_kelamin}</td>
-                <td>{user.stored_at}</td>
-                <td>{user.update_at}</td>
-                <td>
-                  <Button
-                    onClick={() => {
-                      return navigate(`/user/update/${user.id}`);
-                    }}
-                    color="blue"
-                    title={"Edit"}
-                  />
-                  <Button
-                    onClick={() => {
-                      deleteUserHandle(user.id);
-                    }}
-                    color="red"
-                    title={"Delete"}
-                  />
-                </td>
-              </tr>
-            );
-          })}
+        <tbody>
+          {isFetchUser ? (
+            <tr>
+              <td colSpan={9}>loading</td>
+            </tr>
+          ) : (
+            users?.map((user, index) => {
+              return (
+                <tr key={index} className="border">
+                  <td>{index + 1}</td>
+                  <td>{user.username}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.jenis_kelamin}</td>
+                  <td>{user.stored_at}</td>
+                  <td>{user.update_at}</td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        return navigate(`/user/update/${user.id}`);
+                      }}
+                      color="blue"
+                      title={"Edit"}
+                    />
+                    <Button
+                      onClick={() => {
+                        deleteUserHandle(user.id);
+                      }}
+                      color="red"
+                      title={"Delete"}
+                    />
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
       <p>Saat ini di Page {page}</p>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center"></div>
+      <div className="border grid grid-cols-1 gap-5">
+        <Button onClick={() => {
+          dispatch({
+            type: 'change',
+            color: '#7CFC00'
+          })
+        }} title={"Green"} color="green" />
+        <Button onClick={() => {
+          dispatch({
+            type: 'change',
+            color: '#FFFF00'
+          })
+        }} title={"Yellow"} color="yellow" />
+        <Button onClick={() => {
+          dispatch({
+            type: 'return',
+            color: '#FF5733'
+          })
+        }} title={"Kembali"} color="blue" />
+        <p>status : {count.status}</p>
+        <p>value : {count.value}</p>
+        <Button
+          onClick={() => {
+            dispatch(increment());
+          }}
+          title={"Tambah"}
+        />
+        <Button
+          onClick={() => {
+            dispatch(decrement());
+          }}
+          title={"Kurang"}
+          color="blue"
+        />
       </div>
     </div>
   );

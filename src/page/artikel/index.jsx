@@ -1,13 +1,17 @@
 import React from "react";
+import Cookies from "js-cookie";
 import Button from "../../komponen/button";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllArtikel } from "../../API/artikel";
 import { deleteArtikel } from "../../API/artikel";
+import { useSelector } from "react-redux";
 
 export default function Artikel() {
   const [listArtikel, setListArtikel] = React.useState([]);
   const [isFetchArtikel, setIsFetchArtikel] = React.useState(false);
   const navigate = useNavigate();
+  const name = useSelector((state) => state.authProses?.name)
+  const email = useSelector((state) => state.authProses?.email)
   const getListArtikelHandle = async () => {
     try {
       setIsFetchArtikel(true);
@@ -31,6 +35,15 @@ export default function Artikel() {
       <Link to="/artikel/createArtikel">
         <Button title={"Add Artikel"} color="blue"/>
       </Link>
+      <Button
+        title="Logout"
+        onClick={() => {
+          Cookies.remove("myapps_token");
+          return navigate("/login", { replace: true });
+        }}
+      />
+       <p>{name}</p>
+      <p>{email}</p>
       <table className="table-auto w-[1000px]">
         <thead>
           <tr className="text-left border">
