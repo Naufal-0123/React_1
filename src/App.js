@@ -1,9 +1,15 @@
 import React from 'react';
+import { Whatsapp1, Whatsapp2 } from './komponen';
+import './App.css';
+
+
 function App () {
   return(
     <React.Fragment>
-      <h1 className='bg-red-500'>Latihan Apaa</h1>
-     
+     <section className='flex w-screen h-screen'>
+        <Whatsapp1/>
+        <Whatsapp2/>
+     </section>
     </React.Fragment>
   );
 }
