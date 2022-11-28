@@ -9,5 +9,7 @@ export default function LayoutEffectTutorial() {
     useEffect(() => {
         console.log("useEfeect");
     }, []);
-    return <div></div>;
+    return <div>
+        {console.log("jalan di sini")}
+    </div>;
 }
