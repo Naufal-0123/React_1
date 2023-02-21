@@ -1,5 +1,6 @@
 const initialState = {
     email: "",
+    name: "",
     password: "",
     isAuth: false,
   };
@@ -9,6 +10,7 @@ const initialState = {
       return {
         ...state,
         email: action.email,
+        name: action.name,
         password: action.password,  
         isAuth: action.isAuth,
       };

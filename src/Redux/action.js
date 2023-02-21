@@ -8,6 +8,7 @@ export function authMe(payload) {
       let data = response.data;
       dispatch({
         type: "login",
+        name: data?.user?.name,
         email: data?.user?.email,
         password: data?.user?.password,
         isAuth: true,
@@ -29,8 +30,8 @@ export function authLogin(payload) {
       console.log(data);
       dispatch({
         type: "login",
+        name: data?.user?.name,
         email: data?.user?.email,
-        password: data?.user?.password,
         isAuth: true,
       });
       Cookies.set("myapps_token", data?.token);

@@ -6,7 +6,7 @@ import Input from "../../component/input";
 import Select from "../../component/select";
 
 export default function Dashboard() {
-  const author = useSelector((state) => state.auth);
+  const author = useSelector((state) => state.authProses);
   // const navigate = useNavigate();
   const [listProduct, setListProduct] = React.useState([]);
   const [payload, setPayload] = React.useState({
@@ -60,9 +60,9 @@ export default function Dashboard() {
   console.log("payload =>", payload);
   return (
     <div className="bg-gray-700 h-screen w-screen flex flex-col overflow-auto overflow-x-hidden">
-      <header className="bg-green-500 w-screen h-16 flex justify-between rounded-br-lg">
+      <header className="bg-green-500 w-screen h-16 flex justify-between rounded-br-lg sticky top-0">
         <div className="flex p-3 ml-12 justify-between">
-          <div className="">
+          <div className="flex">
             <p className="text-white text-center text-lg font-bold my-1">
               D-Store
             </p>
@@ -72,22 +72,26 @@ export default function Dashboard() {
           <input
             type="text"
             name="keyword"
-            className="w-[500px] h-[40px] p-3 rounded-md bg-gray-700 border border-gray-700  text-white font-bold outline-none"
+            className="w-[500px] h-[40px] p-3 rounded-md bg-gray-700 border border-gray-700  text-white font-bold outline-none text-center"
             onChange={handleChange}
             value={payload.keyword}
             placeholder="Cari Barang Anda Di Sini"
           />
         </div>
         <div className="flex items-center space-x-3">
-          <div>
+          <div className="flex items-center">
+            <div className="font-semibold text-end text-white">
+              <p>{author?.name}</p>
+              <p>{author?.email}</p>
+            </div>
             <button className="border w-10 h-10 bg-gray-600 rounded-full justify-between m-6 "></button>
           </div>
         </div>
       </header>
       <body className="flex space-x-5">
-        <div className="border border-green-500 w-[200px] h-full flex flex-col items-center overflow-auto">
+        <div className="border sticky top-[70px] border-green-500 bg-green-500 rounded-lg w-[200px] h-[300px] flex flex-col items-center overflow-auto mt-12 mr-5 ml-5">
           <select
-            className="h-[35px] w-[150px] bg-green-500 text-center text-gray-700 rounded-lg mt-12 outline-none"
+            className="h-[35px] w-[150px] bg-gray-700 text-center text-green-500 rounded-lg mt-12 outline-none"
             name="kategori"
             // id="select"
             value={payload.kategori}
@@ -109,17 +113,32 @@ export default function Dashboard() {
             placeholder="Harga Tertinggi"
             value={payload.hargaTertinggi}
             onChange={handleChange}
-            className="h-[35px] w-[150px] bg-green-500 text-center text-gray-700 rounded-lg mt-5 outline-none"
+            className="h-[35px] w-[150px] bg-white text-center text-green-500 rounded-lg mt-5 outline-none"
           />
-          
+
           <input
             type={"number"}
             name="hargaTerendah"
             placeholder="Harga Terendah"
             value={payload.hargaTerendah}
             onChange={handleChange}
-            className="h-[35px] w-[150px] bg-green-500 text-center text-gray-700 rounded-lg mt-5 outline-none"
+            className="h-[35px] w-[150px] bg-white text-center text-green-500 rounded-lg mt-5 outline-none"
           />
+
+          <button
+            className="h-[35px] w-[150px] bg-gray-700 text-green-500 mt-5 rounded-lg"
+            onClick={(e) => {
+              e.preventDefault()
+              return setPayload({
+                hargaTerendah: '',
+                hargaTertinggi: '',
+                kategori: '',
+                keyword: '',
+              });
+            }}
+          >
+            <p>RESET KATEGORI</p>
+          </button>
         </div>
         <div className="mt-10">
           <div className="grid grid-cols-5 gap-4">

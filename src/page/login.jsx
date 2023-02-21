@@ -12,6 +12,7 @@ export default function Login() {
   const [errorEmail, setErrorEmail] = React.useState("");
   const [errorPassword, setErrorPassword] = React.useState("");
   const [payload, setPayload] = React.useState({
+    name: "",
     email: "",
     password: "",
   });
